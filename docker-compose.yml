@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env.dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env.dev
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A config worker -l INFO
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env.dev
+    depends_on:
+      - backend
+      - redis
+    restart: unless-stopped
+
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A config beat -l INFO
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env.dev
+    depends_on:
+      - backend
+      - redis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
