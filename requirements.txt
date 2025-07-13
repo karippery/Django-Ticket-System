@@ -18,3 +18,4 @@ django-prometheus==2.3.1
 python-dotenv==1.0.0
 gunicorn==21.2.0
 drf-yasg==1.21.7
+whitenoise==6.4.0
