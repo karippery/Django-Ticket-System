@@ -516,3 +516,5 @@ docs/_build/
 # ticket_attachments/
 # user_avatars/
 # email_templates/compiled/
+.env
+config/__pycache__/settings.cpython-313.pyc
