@@ -31,7 +31,7 @@ sys.path.insert(0, str(BASE_DIR / 'apps'))  # Add apps directory
 SECRET_KEY = 'django-insecure-$n*9b+tr4tct@a0^!lw4g)2mtdqtze80ch#=g8)#=#g!&xz=3z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.getenv('DEBUG', default=0))
+DEBUG = os.getenv('DEBUG', '0').lower() in ('1', 'true', 't', 'y', 'yes')
 
 ALLOWED_HOSTS = os.getenv(
     'DJANGO_ALLOWED_HOSTS',
@@ -59,6 +59,7 @@ THIRD_PARTY_APPS = [
     'django_celery_beat',
     'django_celery_results',
     'django_prometheus',
+    'drf_yasg',
 ]
 
 LOCAL_APPS = [
@@ -109,11 +110,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+        'NAME': os.getenv('POSTGRES_DB', os.getenv('DB_NAME')),
+        'USER': os.getenv('POSTGRES_USER', os.getenv('DB_USER')),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', os.getenv('DB_PASSWORD')),
+        'HOST': os.getenv('POSTGRES_HOST', os.getenv('DB_HOST')),
+        'PORT': os.getenv('POSTGRES_PORT', os.getenv('DB_PORT')),
     }
 }
 
@@ -160,7 +161,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User' 
 
 # REST Framework
 REST_FRAMEWORK = {
