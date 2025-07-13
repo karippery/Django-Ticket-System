@@ -51,23 +51,23 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# THIRD_PARTY_APPS = [
-#     'rest_framework',
-#     'rest_framework_simplejwt',
-#     'corsheaders',
-#     'django_filters',
-#     'django_celery_beat',
-#     'django_celery_results',
-#     'django_prometheus',
-# ]
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'django_filters',
+    'django_celery_beat',
+    'django_celery_results',
+    'django_prometheus',
+]
 
-# LOCAL_APPS = [
-#     'accounts.apps.AccountsConfig',  # Changed from 'apps.accounts'
-#     'tickets.apps.TicketsConfig',
-#     'notifications.apps.NotificationsConfig',
-# ]
+LOCAL_APPS = [
+    'accounts.apps.AccountsConfig',  # Changed from 'apps.accounts'
+    'tickets.apps.TicketsConfig',
+    'notifications.apps.NotificationsConfig',
+]
 
-INSTALLED_APPS = DJANGO_APPS # + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
